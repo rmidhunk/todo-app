@@ -28,6 +28,7 @@ const TodoList: React.FC = () => {
       const newTodoItem: Todo = todoItem;
       await createTodo(newTodoItem);
       setNewTodo("");
+      setCreateTodoDialogOpen(false);
     } catch (error) {
       console.log("Unable to create todo due to ", error);
     }

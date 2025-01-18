@@ -1,7 +1,6 @@
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogFooter,
   DialogHeader,
@@ -29,6 +28,7 @@ interface CreateTodoDialogProps {
 
 const todoSchema = z.object({
   title: z.string().min(1, "Title is required"),
+  dueDate: z.string().min(1, "Due date is required"),
 });
 
 const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
@@ -40,6 +40,7 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
     resolver: zodResolver(todoSchema),
     defaultValues: {
       title: "",
+      dueDate: "",
     },
   });
 
@@ -64,14 +65,22 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                 </FormItem>
               )}
             />
-            <DialogFooter className="sm:justify-start">
-              <DialogClose asChild>
-                <Button type="button" variant="secondary">
-                  Close
-                </Button>
-              </DialogClose>
+            <FormField
+              control={form.control}
+              name="dueDate"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Due Date</FormLabel>
+                  <FormControl>
+                    <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <DialogFooter className="justify-end">
+              <Button type="submit">Create Todo</Button>
             </DialogFooter>
-            <Button type="submit">Create Todo</Button>
           </form>
         </Form>
       </DialogContent>
