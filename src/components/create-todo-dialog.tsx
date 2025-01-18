@@ -15,6 +15,14 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Textarea } from "@/components/ui/textarea";
 import { Todo } from "@/types/todo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -29,6 +37,10 @@ interface CreateTodoDialogProps {
 const todoSchema = z.object({
   title: z.string().min(1, "Title is required"),
   dueDate: z.string().min(1, "Due date is required"),
+  description: z.string().optional(),
+  priority: z.enum(["low", "medium", "high"], {
+    message: "Priority is required",
+  }),
 });
 
 const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
@@ -41,6 +53,8 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
     defaultValues: {
       title: "",
       dueDate: "",
+      description: "",
+      priority: "low",
     },
   });
 
@@ -65,6 +79,7 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                 </FormItem>
               )}
             />
+
             <FormField
               control={form.control}
               name="dueDate"
@@ -73,6 +88,45 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                   <FormLabel>Due Date</FormLabel>
                   <FormControl>
                     <Input type="date" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="description"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Description</FormLabel>
+                  <FormControl>
+                    <Textarea {...field} />
+                  </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="priority"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Priority</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select Priority" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="low">Low</SelectItem>
+                        <SelectItem value="medium">Medium</SelectItem>
+                        <SelectItem value="high">High</SelectItem>
+                      </SelectContent>
+                    </Select>
                   </FormControl>
                   <FormMessage />
                 </FormItem>
