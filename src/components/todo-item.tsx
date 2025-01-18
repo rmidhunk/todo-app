@@ -3,9 +3,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import React from "react";
 
 interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
+  assignedUser: 1;
+  description: string;
+  dueDate: string;
+  id: string;
+  priority: string;
+  status: string;
+  tags: [];
+  title: string;
 }
 
 interface TodoItemProps {
@@ -28,7 +33,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {
           todo.completed ? "line-through text-gray-500" : ""
         }`}
       >
-        {todo.text}
+        {todo?.title}
       </label>
       <Button variant="destructive" size="sm" onClick={onDelete}>
         Delete

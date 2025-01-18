@@ -1,7 +1,7 @@
 import TodoItem from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
+import { useTodos } from "@/hooks/use-todos";
 import React, { useState } from "react";
 
 interface Todo {
@@ -11,33 +11,34 @@ interface Todo {
 }
 
 const TodoList: React.FC = () => {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  // const [todos, setTodos] = useState<Todo[]>([]);
+  const { todos } = useTodos();
   const [newTodo, setNewTodo] = useState("");
 
   const addTodo = () => {
-    if (newTodo.trim() !== "") {
-      setTodos([
-        ...todos,
-        {
-          id: Date.now() + Math.random(),
-          text: newTodo,
-          completed: false,
-        },
-      ]);
-      setNewTodo("");
-    }
+    // if (newTodo.trim() !== "") {
+    //   setTodos([
+    //     ...todos,
+    //     {
+    //       id: Date.now() + Math.random(),
+    //       text: newTodo,
+    //       completed: false,
+    //     },
+    //   ]);
+    //   setNewTodo("");
+    // }
   };
 
   const toggleTodo = (id: number) => {
-    setTodos(
-      todos.map((todo) =>
-        todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-      ),
-    );
+    // setTodos(
+    //   todos.map((todo) =>
+    //     todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+    //   ),
+    // );
   };
 
   const deleteTodo = (id: number) => {
-    setTodos(todos.filter((todo) => todo.id !== id));
+    // setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -54,7 +55,7 @@ const TodoList: React.FC = () => {
         <Button onClick={addTodo}>Add</Button>
       </div>
       <ul className="space-y-2">
-        {todos.map((todo) => (
+        {todos?.map((todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}
