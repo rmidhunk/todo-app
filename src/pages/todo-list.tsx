@@ -12,18 +12,20 @@ const TodoList: React.FC = () => {
   const { createTodo, isCreating } = useTodosMutation();
 
   const [newTodo, setNewTodo] = useState("");
+  const [createTodoDialogOpen, setCreateTodoDialogOpen] = useState(false);
 
-  const addTodo = async () => {
+  const addTodo = async (todoItem: Todo) => {
     try {
-      const newTodoItem: Todo = {
-        title: newTodo,
-        status: "todo",
-        dueDate: "2020-12-31",
-        description: newTodo,
-        assignedUser: 1,
-        priority: "medium",
-        tags: [],
-      };
+      // const newTodoItem: Todo = {
+      //   title: newTodo,
+      //   status: "todo",
+      //   dueDate: "2020-12-31",
+      //   description: newTodo,
+      //   assignedUser: 1,
+      //   priority: "medium",
+      //   tags: [],
+      // };
+      const newTodoItem: Todo = todoItem;
       await createTodo(newTodoItem);
       setNewTodo("");
     } catch (error) {
@@ -33,6 +35,12 @@ const TodoList: React.FC = () => {
 
   return (
     <div className="max-w-md mx-auto mt-8">
+      <CreateTodoDialog
+        isOpen={createTodoDialogOpen}
+        onClose={setCreateTodoDialogOpen}
+        onSubmit={addTodo}
+      />
+
       <h1 className="text-2xl font-bold mb-4">Todo List</h1>
       <div className="flex space-x-2 mb-4">
         <Input
@@ -42,20 +50,13 @@ const TodoList: React.FC = () => {
           placeholder="Add a new todo"
           className="flex-grow"
         />
-        <Dialog>
-          <DialogTrigger asChild>
-            <Button>Add a New Todo Item</Button>
-          </DialogTrigger>
-          <CreateTodoDialog />
-        </Dialog>
+        <Button onClick={() => setCreateTodoDialogOpen(true)}>
+          Add a New Todo Item
+        </Button>
       </div>
       <ul className="space-y-2">
         {todos?.map((todo: Todo) => (
-          <TodoItem
-            key={todo.id}
-            todo={todo}
-            onToggle={() => toggleTodo(todo.id)}
-          />
+          <TodoItem key={todo.id} todo={todo} />
         ))}
       </ul>
     </div>
