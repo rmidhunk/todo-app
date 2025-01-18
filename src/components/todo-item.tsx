@@ -11,22 +11,45 @@ interface TodoItemProps {
   todo: Todo;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
+interface PatchRequestArgs {
+  requestBody: { status: "todo" | "done" };
+  queryParams: string;
+}
+
+async function patchRequest(url: string, { arg }: { arg: PatchRequestArgs }) {
+  return fetch(`${url}/${arg.queryParams}`, {
+    method: "PATCH",
+    body: JSON.stringify(arg.requestBody),
+  }).then((res) => res.json());
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const { removeTodo, isDeleting } = useDeleteTodosMutation();
 
-  const toggleTodo = (id: string) => {
-    // setTodos(
-    //   todos.map((todo) =>
-    //     todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-    //   ),
-    // );
+  const { trigger: toggleTodoItem, isMutating: isToggling } = useSWRMutation(
+    "http://localhost:3000/todo",
+    patchRequest,
+  );
+
+  const toggleTodo = async (id: string) => {
+    try {
+      const updatedTodo: { status: "todo" | "done" } = {
+        status: todo?.status === "done" ? "todo" : "done",
+      };
+      await toggleTodoItem({
+        requestBody: updatedTodo,
+        queryParams: id,
+      });
+    } catch (error) {
+      console.log("Unable to toggle todo due to ", error);
+    }
   };
 
   const deleteTodo = async (id: string) => {
     try {
       await removeTodo({ queryParams: id });
     } catch (error) {
-      console.log("Unable to create todo due to ", error);
+      console.log("Unable to delete todo due to ", error);
     }
   };
 
@@ -59,6 +82,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={todo.status === "done"}
+                disabled={isToggling}
                 onCheckedChange={() => toggleTodo(todo?.id)}
                 id={`todo-${todo.id}`}
               />
