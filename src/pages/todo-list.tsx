@@ -1,5 +1,13 @@
 import { TodoItem } from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
@@ -40,9 +48,17 @@ const TodoList: React.FC = () => {
           placeholder="Add a new todo"
           className="flex-grow"
         />
-        <Button disabled={isCreating} onClick={addTodo}>
-          Add
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button>Add a New Todo Item</Button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[425px]">
+            <DialogHeader>
+              <DialogTitle>Add New Todo</DialogTitle>
+              <DialogDescription>Todo form appears here</DialogDescription>
+            </DialogHeader>
+          </DialogContent>
+        </Dialog>
       </div>
       <ul className="space-y-2">
         {todos?.map((todo: Todo) => (
