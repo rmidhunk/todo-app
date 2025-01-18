@@ -39,6 +39,16 @@
       "assignedUser": 1,
       "priority": "high",
       "tags": []
+    },
+    {
+      "id": "180f",
+      "title": "New todo",
+      "status": "todo",
+      "dueDate": "2020-12-31",
+      "description": "New todo",
+      "assignedUser": 1,
+      "priority": "high",
+      "tags": []
     }
   ],
   "users": [

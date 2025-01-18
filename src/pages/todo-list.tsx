@@ -1,26 +1,41 @@
 import TodoItem from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useTodos } from "@/hooks/use-todos";
+import { useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
 import React, { useState } from "react";
+import useSWRMutation from "swr/mutation";
+
+async function postRequest(url, { arg }: { arg: Todo }) {
+  return fetch(url, {
+    method: "POST",
+    body: JSON.stringify(arg),
+  }).then((res) => res.json());
+}
 
 const TodoList: React.FC = () => {
-  const { todos } = useTodos();
+  const { todos } = useTodosQuery();
+  const { trigger: createTodo, isMutating: isCreating } = useSWRMutation(
+    "http://localhost:3000/todo",
+    postRequest,
+  );
   const [newTodo, setNewTodo] = useState("");
 
-  const addTodo = () => {
-    // if (newTodo.trim() !== "") {
-    //   setTodos([
-    //     ...todos,
-    //     {
-    //       id: Date.now() + Math.random(),
-    //       text: newTodo,
-    //       completed: false,
-    //     },
-    //   ]);
-    //   setNewTodo("");
-    // }
+  const addTodo = async () => {
+    try {
+      const newTodoItem: Todo = {
+        title: newTodo,
+        status: "todo",
+        dueDate: "2020-12-31",
+        description: newTodo,
+        assignedUser: 1,
+        priority: "high",
+        tags: [],
+      };
+      await createTodo(newTodoItem);
+    } catch (error) {
+      console.log("Unable to create todo due to ", error);
+    }
   };
 
   const toggleTodo = (id: string) => {
@@ -46,7 +61,9 @@ const TodoList: React.FC = () => {
           placeholder="Add a new todo"
           className="flex-grow"
         />
-        <Button onClick={addTodo}>Add</Button>
+        <Button disabled={isCreating} onClick={addTodo}>
+          Add
+        </Button>
       </div>
       <ul className="space-y-2">
         {todos?.map((todo: Todo) => (
