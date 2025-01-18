@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import React, { useState } from "react";
 
@@ -35,6 +36,21 @@ const TodoList: React.FC = () => {
         />
         <Button onClick={addTodo}>Add</Button>
       </div>
+      <ul className="space-y-2">
+        {todos.map((todo) => (
+          <li className="flex items-center space-x-2">
+            <Checkbox id={`todo-${todo.id}`} />
+            <label
+              htmlFor={`todo-${todo.id}`}
+              className={`flex-grow ${
+                todo.completed ? "line-through text-gray-500" : ""
+              }`}
+            >
+              {todo.text}
+            </label>
+          </li>
+        ))}
+      </ul>
     </div>
   );
 };
