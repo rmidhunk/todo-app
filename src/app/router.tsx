@@ -1,11 +1,11 @@
-import { TaskList } from "@/pages/task-list";
+import { TodoList } from "@/pages/todo-list";
 import { BrowserRouter, Route, Routes } from "react-router";
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/tasks" element={<TaskList />} />
+        <Route path="/todo-list" element={<TodoList />} />
       </Routes>
     </BrowserRouter>
   );
