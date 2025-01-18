@@ -4,14 +4,37 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Todo } from "@/types/todo";
 import React from "react";
+import useSWRMutation from "swr/mutation";
 
 interface TodoItemProps {
   todo: Todo;
   onToggle: () => void;
-  onDelete: () => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {
+interface DeleteRequestArgs {
+  queryParams: string;
+}
+
+async function deleteRequest(url: string, { arg }: { arg: DeleteRequestArgs }) {
+  return fetch(`${url}/${arg.queryParams}`, {
+    method: "DELETE",
+  }).then((res) => res.json());
+}
+
+const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
+  const { trigger: removeTodo, isMutating: isDeleting } = useSWRMutation(
+    "http://localhost:3000/todo",
+    deleteRequest,
+  );
+
+  const deleteTodo = async (id: string) => {
+    try {
+      await removeTodo({ queryParams: id });
+    } catch (error) {
+      console.log("Unable to create todo due to ", error);
+    }
+  };
+
   return (
     <li>
       <Card className="w-full p-4 shadow-md">
@@ -54,7 +77,11 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {
             <span className="text-sm text-gray-700">
               Assigned User: {todo.assignedUser}
             </span>
-            <Button variant="destructive" size="sm" onClick={onDelete}>
+            <Button
+              variant="destructive"
+              size="sm"
+              onClick={() => deleteTodo(todo?.id)}
+            >
               Delete
             </Button>
           </div>

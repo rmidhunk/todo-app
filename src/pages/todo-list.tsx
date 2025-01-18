@@ -19,10 +19,11 @@ const TodoList: React.FC = () => {
         dueDate: "2020-12-31",
         description: newTodo,
         assignedUser: 1,
-        priority: "high",
+        priority: "medium",
         tags: [],
       };
       await createTodo(newTodoItem);
+      setNewTodo("");
     } catch (error) {
       console.log("Unable to create todo due to ", error);
     }
@@ -34,10 +35,6 @@ const TodoList: React.FC = () => {
     //     todo.id === id ? { ...todo, completed: !todo.completed } : todo,
     //   ),
     // );
-  };
-
-  const deleteTodo = (id: string) => {
-    // setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   return (
@@ -61,7 +58,6 @@ const TodoList: React.FC = () => {
             key={todo.id}
             todo={todo}
             onToggle={() => toggleTodo(todo.id)}
-            onDelete={() => deleteTodo(todo.id)}
           />
         ))}
       </ul>
