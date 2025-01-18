@@ -1,24 +1,14 @@
 import TodoItem from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { useTodosQuery } from "@/hooks/use-todos";
+import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
 import React, { useState } from "react";
-import useSWRMutation from "swr/mutation";
-
-async function postRequest(url, { arg }: { arg: Todo }) {
-  return fetch(url, {
-    method: "POST",
-    body: JSON.stringify(arg),
-  }).then((res) => res.json());
-}
 
 const TodoList: React.FC = () => {
   const { todos } = useTodosQuery();
-  const { trigger: createTodo, isMutating: isCreating } = useSWRMutation(
-    "http://localhost:3000/todo",
-    postRequest,
-  );
+  const { createTodo, isCreating } = useTodosMutation();
+
   const [newTodo, setNewTodo] = useState("");
 
   const addTodo = async () => {
