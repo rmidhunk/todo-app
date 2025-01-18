@@ -1,5 +1,7 @@
+import AppRouter from "./router";
+
 function App() {
-  return <h1 className="text-3xl font-bold underline">Todo list app</h1>;
+  return <AppRouter />;
 }
 
 export default App;
