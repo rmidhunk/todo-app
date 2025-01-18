@@ -2,34 +2,20 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
-import { useDeleteTodosMutation } from "@/hooks/use-todos";
+import {
+  useDeleteTodosMutation,
+  usePatchTodosMutation,
+} from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
 import React from "react";
-import useSWRMutation from "swr/mutation";
 
 interface TodoItemProps {
   todo: Todo;
 }
 
-interface PatchRequestArgs {
-  requestBody: { status: "todo" | "done" };
-  queryParams: string;
-}
-
-async function patchRequest(url: string, { arg }: { arg: PatchRequestArgs }) {
-  return fetch(`${url}/${arg.queryParams}`, {
-    method: "PATCH",
-    body: JSON.stringify(arg.requestBody),
-  }).then((res) => res.json());
-}
-
 const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const { removeTodo, isDeleting } = useDeleteTodosMutation();
-
-  const { trigger: toggleTodoItem, isMutating: isToggling } = useSWRMutation(
-    "http://localhost:3000/todo",
-    patchRequest,
-  );
+  const { toggleTodoItem, isToggling } = usePatchTodosMutation();
 
   const toggleTodo = async (id: string) => {
     try {

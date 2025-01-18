@@ -5,12 +5,24 @@ interface DeleteRequestArgs {
   queryParams: string;
 }
 
+interface PatchRequestArgs {
+  requestBody: { status: "todo" | "done" };
+  queryParams: string;
+}
+
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 async function postRequest(url: string, { arg }: { arg: Todo }) {
   return fetch(url, {
     method: "POST",
     body: JSON.stringify(arg),
+  }).then((res) => res.json());
+}
+
+async function patchRequest(url: string, { arg }: { arg: PatchRequestArgs }) {
+  return fetch(`${url}/${arg.queryParams}`, {
+    method: "PATCH",
+    body: JSON.stringify(arg.requestBody),
   }).then((res) => res.json());
 }
 
@@ -40,6 +52,14 @@ const useTodosMutation = () => {
   return { createTodo: trigger, isCreating: isMutating };
 };
 
+const usePatchTodosMutation = () => {
+  const { trigger, isMutating } = useSWRMutation(
+    "http://localhost:3000/todo",
+    patchRequest,
+  );
+  return { toggleTodoItem: trigger, isToggling: isMutating };
+};
+
 const useDeleteTodosMutation = () => {
   const { trigger, isMutating } = useSWRMutation(
     "http://localhost:3000/todo",
@@ -48,4 +68,9 @@ const useDeleteTodosMutation = () => {
   return { removeTodo: trigger, isDeleting: isMutating };
 };
 
-export { useTodosMutation, useTodosQuery, useDeleteTodosMutation };
+export {
+  useTodosMutation,
+  useTodosQuery,
+  useDeleteTodosMutation,
+  usePatchTodosMutation,
+};
