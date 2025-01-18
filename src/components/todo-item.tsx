@@ -1,17 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Todo } from "@/types/todo";
 import React from "react";
-
-interface Todo {
-  assignedUser: 1;
-  description: string;
-  dueDate: string;
-  id: string;
-  priority: string;
-  status: string;
-  tags: [];
-  title: string;
-}
 
 interface TodoItemProps {
   todo: Todo;
@@ -23,14 +13,14 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle, onDelete }) => {
   return (
     <li className="flex items-center space-x-2">
       <Checkbox
-        checked={todo.completed}
+        checked={todo?.status === "done"}
         onCheckedChange={onToggle}
         id={`todo-${todo.id}`}
       />
       <label
         htmlFor={`todo-${todo.id}`}
         className={`flex-grow ${
-          todo.completed ? "line-through text-gray-500" : ""
+          todo?.status === "done" ? "line-through text-gray-500" : ""
         }`}
       >
         {todo?.title}

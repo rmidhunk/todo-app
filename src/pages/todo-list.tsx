@@ -2,16 +2,10 @@ import TodoItem from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTodos } from "@/hooks/use-todos";
+import { Todo } from "@/types/todo";
 import React, { useState } from "react";
 
-interface Todo {
-  id: number;
-  text: string;
-  completed: boolean;
-}
-
 const TodoList: React.FC = () => {
-  // const [todos, setTodos] = useState<Todo[]>([]);
   const { todos } = useTodos();
   const [newTodo, setNewTodo] = useState("");
 
@@ -29,7 +23,7 @@ const TodoList: React.FC = () => {
     // }
   };
 
-  const toggleTodo = (id: number) => {
+  const toggleTodo = (id: string) => {
     // setTodos(
     //   todos.map((todo) =>
     //     todo.id === id ? { ...todo, completed: !todo.completed } : todo,
@@ -37,7 +31,7 @@ const TodoList: React.FC = () => {
     // );
   };
 
-  const deleteTodo = (id: number) => {
+  const deleteTodo = (id: string) => {
     // setTodos(todos.filter((todo) => todo.id !== id));
   };
 
@@ -55,7 +49,7 @@ const TodoList: React.FC = () => {
         <Button onClick={addTodo}>Add</Button>
       </div>
       <ul className="space-y-2">
-        {todos?.map((todo) => (
+        {todos?.map((todo: Todo) => (
           <TodoItem
             key={todo.id}
             todo={todo}
