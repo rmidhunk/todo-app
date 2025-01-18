@@ -1,7 +1,6 @@
 import CreateTodoDialog from "@/components/create-todo-dialog";
 import { TodoItem } from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
-import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
@@ -16,16 +15,7 @@ const TodoList: React.FC = () => {
 
   const addTodo = async (todoItem: Todo) => {
     try {
-      // const newTodoItem: Todo = {
-      //   title: newTodo,
-      //   status: "todo",
-      //   dueDate: "2020-12-31",
-      //   description: newTodo,
-      //   assignedUser: 1,
-      //   priority: "medium",
-      //   tags: [],
-      // };
-      const newTodoItem: Todo = todoItem;
+      const newTodoItem: Todo = { ...todoItem, status: "todo" };
       await createTodo(newTodoItem);
       setNewTodo("");
       setCreateTodoDialogOpen(false);

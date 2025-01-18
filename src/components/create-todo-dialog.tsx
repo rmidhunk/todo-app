@@ -23,6 +23,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useUsersQuery } from "@/hooks/use-users";
 import { Todo } from "@/types/todo";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -34,10 +35,16 @@ interface CreateTodoDialogProps {
   onSubmit: (data: Todo) => void;
 }
 
+interface User {
+  id: string;
+  name: string;
+}
+
 const todoSchema = z.object({
   title: z.string().min(1, "Title is required"),
   dueDate: z.string().min(1, "Due date is required"),
   description: z.string().optional(),
+  assignedUser: z.string().min(1, "Assigned user is required"),
   priority: z.enum(["low", "medium", "high"], {
     message: "Priority is required",
   }),
@@ -48,12 +55,15 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
   onClose,
   onSubmit,
 }) => {
+  const { users, isUsersLoading, isUsersError } = useUsersQuery();
+
   const form = useForm({
     resolver: zodResolver(todoSchema),
     defaultValues: {
       title: "",
       dueDate: "",
       description: "",
+      assignedUser: "",
       priority: "low",
     },
   });
@@ -103,6 +113,34 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>
+                </FormItem>
+              )}
+            />
+
+            <FormField
+              control={form.control}
+              name="assignedUser"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Assigned User</FormLabel>
+                  <FormControl>
+                    <Select
+                      onValueChange={field.onChange}
+                      defaultValue={field.value}
+                    >
+                      <SelectTrigger>
+                        <SelectValue placeholder="Select User" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        {users.map((user: User) => (
+                          <SelectItem key={user?.id} value={user?.id}>
+                            {user?.name}
+                          </SelectItem>
+                        ))}
+                      </SelectContent>
+                    </Select>
+                  </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
