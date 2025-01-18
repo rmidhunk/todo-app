@@ -1,13 +1,7 @@
+import CreateTodoDialog from "@/components/create-todo-dialog";
 import { TodoItem } from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import { Input } from "@/components/ui/input";
 import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
@@ -52,12 +46,7 @@ const TodoList: React.FC = () => {
           <DialogTrigger asChild>
             <Button>Add a New Todo Item</Button>
           </DialogTrigger>
-          <DialogContent className="sm:max-w-[425px]">
-            <DialogHeader>
-              <DialogTitle>Add New Todo</DialogTitle>
-              <DialogDescription>Todo form appears here</DialogDescription>
-            </DialogHeader>
-          </DialogContent>
+          <CreateTodoDialog />
         </Dialog>
       </div>
       <ul className="space-y-2">
