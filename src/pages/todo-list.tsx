@@ -1,4 +1,4 @@
-import TodoItem from "@/components/todo-item";
+import { TodoItem } from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
@@ -27,14 +27,6 @@ const TodoList: React.FC = () => {
     } catch (error) {
       console.log("Unable to create todo due to ", error);
     }
-  };
-
-  const toggleTodo = (id: string) => {
-    // setTodos(
-    //   todos.map((todo) =>
-    //     todo.id === id ? { ...todo, completed: !todo.completed } : todo,
-    //   ),
-    // );
   };
 
   return (

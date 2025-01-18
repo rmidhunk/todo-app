@@ -2,30 +2,25 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { useDeleteTodosMutation } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
 import React from "react";
 import useSWRMutation from "swr/mutation";
 
 interface TodoItemProps {
   todo: Todo;
-  onToggle: () => void;
-}
-
-interface DeleteRequestArgs {
-  queryParams: string;
-}
-
-async function deleteRequest(url: string, { arg }: { arg: DeleteRequestArgs }) {
-  return fetch(`${url}/${arg.queryParams}`, {
-    method: "DELETE",
-  }).then((res) => res.json());
 }
 
 const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
-  const { trigger: removeTodo, isMutating: isDeleting } = useSWRMutation(
-    "http://localhost:3000/todo",
-    deleteRequest,
-  );
+  const { removeTodo, isDeleting } = useDeleteTodosMutation();
+
+  const toggleTodo = (id: string) => {
+    // setTodos(
+    //   todos.map((todo) =>
+    //     todo.id === id ? { ...todo, completed: !todo.completed } : todo,
+    //   ),
+    // );
+  };
 
   const deleteTodo = async (id: string) => {
     try {
@@ -64,7 +59,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
             <div className="flex items-center space-x-2">
               <Checkbox
                 checked={todo.status === "done"}
-                onCheckedChange={onToggle}
+                onCheckedChange={() => toggleTodo(todo?.id)}
                 id={`todo-${todo.id}`}
               />
               <label htmlFor={`todo-${todo.id}`} className="text-sm">
@@ -80,6 +75,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
             <Button
               variant="destructive"
               size="sm"
+              disabled={isDeleting}
               onClick={() => deleteTodo(todo?.id)}
             >
               Delete
@@ -91,4 +87,4 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, onToggle }) => {
   );
 };
 
-export default TodoItem;
+export { TodoItem };
