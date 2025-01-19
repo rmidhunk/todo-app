@@ -43,11 +43,9 @@ interface User {
 const todoSchema = z.object({
   title: z.string().min(1, "Title is required"),
   dueDate: z.string().min(1, "Due date is required"),
-  description: z.string().optional(),
+  description: z.string().min(1, "Description is required"),
   assignedUser: z.string().min(1, "Assigned user is required"),
-  priority: z.enum(["low", "medium", "high"], {
-    message: "Priority is required",
-  }),
+  priority: z.enum(["", "low", "medium", "high"]).optional(),
 });
 
 const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
@@ -64,7 +62,7 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
       dueDate: "",
       description: "",
       assignedUser: "",
-      priority: "low",
+      priority: "",
     },
   });
 
@@ -113,6 +111,7 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                   <FormControl>
                     <Textarea {...field} />
                   </FormControl>
+                  <FormMessage />
                 </FormItem>
               )}
             />
@@ -133,7 +132,7 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                       </SelectTrigger>
                       <SelectContent>
                         {users.map((user: User) => (
-                          <SelectItem key={user?.id} value={user?.id}>
+                          <SelectItem key={user?.id} value={user?.name}>
                             {user?.name}
                           </SelectItem>
                         ))}

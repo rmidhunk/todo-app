@@ -52,19 +52,22 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
           >
             {todo.title}
           </CardTitle>
+
+          {todo.priority && (
+            <Badge
+              className={cn(
+                todo.priority === "high"
+                  ? "bg-red-500 text-white"
+                  : todo.priority === "medium"
+                  ? "bg-yellow-500 text-white"
+                  : "bg-green-500 text-white",
+              )}
+            >
+              {todo.priority}
+            </Badge>
+          )}
           <Badge variant="secondary" className="capitalize">
             {todo?.status}
-          </Badge>
-          <Badge
-            className={cn(
-              todo.priority === "high"
-                ? "bg-red-500 text-white"
-                : todo.priority === "medium"
-                ? "bg-yellow-500 text-white"
-                : "bg-green-500 text-white",
-            )}
-          >
-            {todo.priority}
           </Badge>
         </CardHeader>
         <CardContent>

@@ -39,6 +39,15 @@
       "assignedUser": "John Doe",
       "priority": "high",
       "tags": []
+    },
+    {
+      "id": "0b73",
+      "title": "New todo",
+      "dueDate": "2025-01-24",
+      "description": "New todo description",
+      "assignedUser": "Dean Doe",
+      "priority": "",
+      "status": "todo"
     }
   ],
   "users": [
@@ -59,11 +68,6 @@
     },
     {
       "id": "4",
-      "name": "Dean Doe",
-      "email": "dean@example.com"
-    },
-    {
-      "id": "427d",
       "name": "Dean Doe",
       "email": "dean@example.com"
     }
