@@ -13,6 +13,7 @@ import { useAuth } from "@/context/auth-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { useNavigate } from "react-router";
 import { z } from "zod";
 
 const loginSchema = z.object({
@@ -22,6 +23,7 @@ const loginSchema = z.object({
 
 const LoginPage = () => {
   const auth = useAuth();
+  const navigate = useNavigate();
 
   const [error, setError] = useState<string | null>(null);
 
@@ -30,9 +32,10 @@ const LoginPage = () => {
     defaultValues: { username: "", password: "" },
   });
 
-  const onSubmit = async (data: { username: string; password: string }) => {
+  const onSubmit = (data: { username: string; password: string }) => {
     try {
       auth?.login(data.username, data.password);
+      navigate("/todo-list");
     } catch (error) {
       setError("Invalid username or password");
       console.log("Authentication failed due to ", error);
