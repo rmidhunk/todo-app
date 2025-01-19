@@ -6,6 +6,7 @@ import {
   useDeleteTodosMutation,
   usePatchTodosMutation,
 } from "@/hooks/use-todos";
+import { cn } from "@/lib/utils";
 import { Todo } from "@/types/todo";
 import React from "react";
 
@@ -44,20 +45,24 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
       <Card className="w-full p-4 shadow-md">
         <CardHeader className="flex flex-row justify-between items-center">
           <CardTitle
-            className={`text-lg font-semibold ${
-              todo.status === "done" ? "line-through text-gray-500" : ""
-            }`}
+            className={cn(
+              `text-lg font-semibold`,
+              todo.status === "done" ? "line-through text-gray-500" : "",
+            )}
           >
             {todo.title}
           </CardTitle>
+          <Badge variant="secondary" className="capitalize">
+            {todo?.status}
+          </Badge>
           <Badge
-            className={
+            className={cn(
               todo.priority === "high"
                 ? "bg-red-500 text-white"
                 : todo.priority === "medium"
                 ? "bg-yellow-500 text-white"
-                : "bg-green-500 text-white"
-            }
+                : "bg-green-500 text-white",
+            )}
           >
             {todo.priority}
           </Badge>

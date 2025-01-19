@@ -1,3 +1,4 @@
+import { LoginPage } from "@/pages/login-page";
 import { TodoList } from "@/pages/todo-list";
 import { BrowserRouter, Route, Routes } from "react-router";
 
@@ -5,6 +6,7 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={<LoginPage />} />
         <Route path="/todo-list" element={<TodoList />} />
       </Routes>
     </BrowserRouter>
