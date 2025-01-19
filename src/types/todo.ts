@@ -1,5 +1,5 @@
 export interface Todo {
-  assignedUser: number;
+  assignedUser: string;
   description: string;
   dueDate: string;
   id?: string;

@@ -2,6 +2,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   useDeleteTodosMutation,
   usePatchTodosMutation,
@@ -9,6 +10,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Todo } from "@/types/todo";
 import React from "react";
+import { DeleteTodoConfirmDialog } from "./delete-todo-confirm-dialog";
 
 interface TodoItemProps {
   todo: Todo;
@@ -90,14 +92,14 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
             <span className="text-sm text-gray-700">
               Assigned User: {todo.assignedUser}
             </span>
-            <Button
-              variant="destructive"
-              size="sm"
-              disabled={isDeleting}
-              onClick={() => deleteTodo(todo?.id)}
-            >
-              Delete
-            </Button>
+            <Dialog>
+              <DialogTrigger asChild>
+                <Button variant="destructive" size="sm">
+                  Delete
+                </Button>
+              </DialogTrigger>
+              <DeleteTodoConfirmDialog todoItem={todo} onDelete={deleteTodo} />
+            </Dialog>
           </div>
         </CardContent>
       </Card>
