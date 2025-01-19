@@ -1,5 +1,7 @@
 import AuthProvider from "@/context/auth-provider";
 
-export const AppProvider = ({ children }: { children: React.ReactNode }) => {
+export const AppProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   return <AuthProvider>{children}</AuthProvider>;
 };

@@ -9,6 +9,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuth } from "@/context/auth-provider";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -16,10 +17,12 @@ import { z } from "zod";
 
 const loginSchema = z.object({
   username: z.string().min(1, "Username is required"),
-  password: z.string().min(6, "Password must be at least 6 characters"),
+  password: z.string().min(1, "Password is required"),
 });
 
 const LoginPage = () => {
+  const auth = useAuth();
+
   const [error, setError] = useState<string | null>(null);
 
   const form = useForm({
@@ -27,9 +30,9 @@ const LoginPage = () => {
     defaultValues: { username: "", password: "" },
   });
 
-  const onSubmit = (data: { username: string; password: string }) => {
+  const onSubmit = async (data: { username: string; password: string }) => {
     try {
-      console.log("onSubmit data= ", data);
+      auth?.login(data.username, data.password);
     } catch (error) {
       setError("Invalid username or password");
       console.log("Authentication failed due to ", error);
