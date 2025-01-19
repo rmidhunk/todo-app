@@ -11,7 +11,12 @@ const Header = () => {
         {auth?.user && (
           <>
             <p className="text-sm">Logged in as: {auth?.user}</p>
-            <Button variant="destructive" onClick={() => {}}>
+            <Button
+              variant="destructive"
+              onClick={() => {
+                auth?.logout();
+              }}
+            >
               Logout
             </Button>
           </>

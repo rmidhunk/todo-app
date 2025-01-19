@@ -1,12 +1,13 @@
 import { useAuthQuery } from "@/hooks/use-authentication";
 import { createContext, useContext, useState } from "react";
 
-interface AuthContext {
+interface AuthContextType {
   user: string | null;
   login: (username: string, password: string) => void;
+  logout: () => void;
 }
 
-const AuthContext = createContext<AuthContext | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const { authData } = useAuthQuery();
@@ -27,8 +28,13 @@ const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     }
   };
 
+  const logout = () => {
+    localStorage.removeItem("user");
+    setUser(null);
+  };
+
   return (
-    <AuthContext.Provider value={{ user, login }}>
+    <AuthContext.Provider value={{ user, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
