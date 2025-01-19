@@ -25,7 +25,7 @@ const TodoList: React.FC = () => {
   };
 
   return (
-    <div className="max-w-md mx-auto mt-8">
+    <div className="max-w-md mx-auto mt-8 pt-16">
       <CreateTodoDialog
         isOpen={createTodoDialogOpen}
         onClose={setCreateTodoDialogOpen}
