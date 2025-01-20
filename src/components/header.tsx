@@ -14,7 +14,9 @@ const Header = () => {
       <div className="flex items-center space-x-4">
         {auth?.user && (
           <>
-            <p className="text-sm">Logged in as: {auth?.user}</p>
+            <p className="text-sm">
+              Logged in as: <span className="capitalize">{auth?.user}</span>
+            </p>
             <Button
               variant="destructive"
               onClick={() => {

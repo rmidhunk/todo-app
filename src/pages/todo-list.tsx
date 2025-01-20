@@ -1,6 +1,7 @@
 import CreateTodoDialog from "@/components/create-todo-dialog";
 import TodoFilter from "@/components/todo-filter";
 import { TodoItem } from "@/components/todo-item";
+import { TodoSort } from "@/components/todo-sort";
 import { Button } from "@/components/ui/button";
 
 import { Input } from "@/components/ui/input";
@@ -14,12 +15,13 @@ const TodoList: React.FC = () => {
   const [newTodo, setNewTodo] = useState("");
   const [createTodoDialogOpen, setCreateTodoDialogOpen] = useState(false);
 
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
 
   const status = searchParams.get("status") || "";
   const user = searchParams.get("user") || "";
+  const sort = searchParams.get("sort") || "";
 
-  const { todos } = useTodosQuery({ status, user });
+  const { todos } = useTodosQuery({ status, user, sort });
   const { createTodo, isCreating } = useTodosMutation();
 
   const addTodo = async (todoItem: Todo) => {
@@ -46,8 +48,12 @@ const TodoList: React.FC = () => {
           <Button onClick={() => setCreateTodoDialogOpen(true)}>
             <PlusIcon /> New Task
           </Button>
-          <div>
+          <div className="flex gap-2">
             <TodoFilter />
+            <TodoSort />
+            <Button variant="outline" onClick={() => setSearchParams({})}>
+              Clear All
+            </Button>
           </div>
         </div>
         <Input

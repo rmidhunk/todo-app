@@ -9,18 +9,14 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUsersQuery } from "@/hooks/use-users";
-import { User } from "@/types/user";
 import { ChevronDownIcon } from "lucide-react";
 import { useSearchParams } from "react-router";
 
 interface NewParamsType {
-  status?: "todo" | "in-progress" | "done";
-  user?: string;
+  sort?: string;
 }
 
-const TodoFilter = () => {
-  const { users } = useUsersQuery();
+const TodoSort = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const updateParams = (newParams: NewParamsType) => {
@@ -39,49 +35,46 @@ const TodoFilter = () => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button variant="secondary">
-          Filter
+          Sort
           <ChevronDownIcon />
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Status</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Title</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => updateParams({ status: "todo" })}
+                onClick={() => updateParams({ sort: "title" })}
               >
-                Todo
+                Ascending
               </DropdownMenuItem>
               <DropdownMenuItem
                 className="cursor-pointer"
-                onClick={() => updateParams({ status: "in-progress" })}
+                onClick={() => updateParams({ sort: "-title" })}
               >
-                In Progress
-              </DropdownMenuItem>
-              <DropdownMenuItem
-                className="cursor-pointer"
-                onClick={() => updateParams({ status: "done" })}
-              >
-                Done
+                Descending
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
         <DropdownMenuSub>
-          <DropdownMenuSubTrigger>Users</DropdownMenuSubTrigger>
+          <DropdownMenuSubTrigger>Due date</DropdownMenuSubTrigger>
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
-              {users?.map((user: User) => (
-                <DropdownMenuItem
-                  className="cursor-pointer"
-                  key={user?.id}
-                  onClick={() => updateParams({ user: user?.id })}
-                >
-                  {user?.name}
-                </DropdownMenuItem>
-              ))}
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => updateParams({ sort: "dueDate" })}
+              >
+                Ascending
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                className="cursor-pointer"
+                onClick={() => updateParams({ sort: "-dueDate" })}
+              >
+                Descending
+              </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
@@ -90,4 +83,4 @@ const TodoFilter = () => {
   );
 };
 
-export default TodoFilter;
+export { TodoSort };
