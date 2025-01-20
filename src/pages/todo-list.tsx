@@ -8,13 +8,19 @@ import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
 import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";
+import { useSearchParams } from "react-router";
 
 const TodoList: React.FC = () => {
-  const { todos } = useTodosQuery();
-  const { createTodo, isCreating } = useTodosMutation();
-
   const [newTodo, setNewTodo] = useState("");
   const [createTodoDialogOpen, setCreateTodoDialogOpen] = useState(false);
+
+  const [searchParams] = useSearchParams();
+
+  const status = searchParams.get("status") || "";
+  const user = searchParams.get("user") || "";
+
+  const { todos } = useTodosQuery({ status, user });
+  const { createTodo, isCreating } = useTodosMutation();
 
   const addTodo = async (todoItem: Todo) => {
     try {

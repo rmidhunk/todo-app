@@ -32,11 +32,16 @@ async function deleteRequest(url: string, { arg }: { arg: DeleteRequestArgs }) {
   }).then((res) => res.json());
 }
 
-const useTodosQuery = () => {
-  const { data, error, isLoading } = useSWR(
-    `http://localhost:3000/todo`,
-    fetcher,
-  );
+const useTodosQuery = ({ status, user }: { status: string; user: string }) => {
+  const params = new URLSearchParams();
+  if (user) params.append("assignedUser", user);
+  if (status) params.append("status", status);
+
+  const url = `http://localhost:3000/todo${
+    params.toString() ? `?${params.toString()}` : ""
+  }`;
+
+  const { data, error, isLoading } = useSWR(url, fetcher);
 
   return {
     todos: data,

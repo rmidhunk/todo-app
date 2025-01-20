@@ -15,7 +15,7 @@ import { ChevronDownIcon } from "lucide-react";
 import { useSearchParams } from "react-router";
 
 interface NewParamsType {
-  status?: "high" | "medium" | "low";
+  status?: "todo" | "inProgress" | "done";
   user?: string;
 }
 
@@ -49,17 +49,19 @@ const TodoFilter = () => {
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem
-                onClick={() => updateParams({ status: "high" })}
+                onClick={() => updateParams({ status: "todo" })}
               >
-                High
+                Todo
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => updateParams({ status: "medium" })}
+                onClick={() => updateParams({ status: "inProgress" })}
               >
-                Medium
+                In Progress
               </DropdownMenuItem>
-              <DropdownMenuItem onClick={() => updateParams({ status: "low" })}>
-                Low
+              <DropdownMenuItem
+                onClick={() => updateParams({ status: "done" })}
+              >
+                Done
               </DropdownMenuItem>
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
