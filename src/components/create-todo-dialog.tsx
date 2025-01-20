@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
+  DialogDescription,
   DialogFooter,
   DialogHeader,
   DialogTitle,
@@ -23,6 +24,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
+import { useTodosMutation } from "@/hooks/use-todos";
 import { useUsersQuery } from "@/hooks/use-users";
 import { Todo } from "@/types/todo";
 import { User } from "@/types/user";
@@ -33,7 +35,7 @@ import { z } from "zod";
 interface CreateTodoDialogProps {
   isOpen: boolean;
   onClose: (data: boolean) => void;
-  onSubmit: (data: Todo) => void;
+  todoListMutate: () => void;
 }
 
 const todoSchema = z.object({
@@ -47,9 +49,23 @@ const todoSchema = z.object({
 const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
   isOpen,
   onClose,
-  onSubmit,
+  todoListMutate,
 }) => {
   const { users, isUsersLoading, isUsersError } = useUsersQuery();
+
+  const { createTodo, isCreating } = useTodosMutation();
+
+  const addTodo = async (todoItem: Todo) => {
+    try {
+      const newTodoItem: Todo = { ...todoItem, status: "todo" };
+      await createTodo(newTodoItem);
+      form.reset();
+      onClose(false);
+      todoListMutate();
+    } catch (error) {
+      console.log("Unable to create todo due to ", error);
+    }
+  };
 
   const form = useForm({
     resolver: zodResolver(todoSchema),
@@ -67,9 +83,12 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>Create New Todo</DialogTitle>
+          <DialogDescription>
+            Create a new todo from here. Click create todo when you're done.
+          </DialogDescription>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+          <form onSubmit={form.handleSubmit(addTodo)} className="space-y-4">
             <FormField
               control={form.control}
               name="title"

@@ -5,7 +5,7 @@ import { TodoItem } from "@/components/todo-item";
 import { TodoPagination } from "@/components/todo-pagination";
 import { TodoSort } from "@/components/todo-sort";
 import { Button } from "@/components/ui/button";
-import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
+import { useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
 import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";
@@ -29,25 +29,13 @@ const TodoList: React.FC = () => {
     page,
     title,
   });
-  const { createTodo, isCreating } = useTodosMutation();
-
-  const addTodo = async (todoItem: Todo) => {
-    try {
-      const newTodoItem: Todo = { ...todoItem, status: "todo" };
-      await createTodo(newTodoItem);
-      setCreateTodoDialogOpen(false);
-      todoListMutate();
-    } catch (error) {
-      console.log("Unable to create todo due to ", error);
-    }
-  };
 
   return (
     <div className="max-w-md mx-auto mt-8 py-16">
       <CreateTodoDialog
+        todoListMutate={todoListMutate}
         isOpen={createTodoDialogOpen}
         onClose={setCreateTodoDialogOpen}
-        onSubmit={addTodo}
       />
 
       <h1 className="text-2xl font-bold mb-4">Todo List</h1>
