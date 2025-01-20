@@ -1,9 +1,12 @@
 import CreateTodoDialog from "@/components/create-todo-dialog";
+import TodoFilter from "@/components/todo-filter";
 import { TodoItem } from "@/components/todo-item";
 import { Button } from "@/components/ui/button";
+
 import { Input } from "@/components/ui/input";
 import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
 import { Todo } from "@/types/todo";
+import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";
 
 const TodoList: React.FC = () => {
@@ -17,7 +20,6 @@ const TodoList: React.FC = () => {
     try {
       const newTodoItem: Todo = { ...todoItem, status: "todo" };
       await createTodo(newTodoItem);
-      setNewTodo("");
       setCreateTodoDialogOpen(false);
     } catch (error) {
       console.log("Unable to create todo due to ", error);
@@ -33,7 +35,13 @@ const TodoList: React.FC = () => {
       />
 
       <h1 className="text-2xl font-bold mb-4">Todo List</h1>
-      <div className="flex space-x-2 mb-4">
+      <div className="flex flex-col gap-2 mb-4">
+        <div className="flex justify-between">
+          <Button onClick={() => setCreateTodoDialogOpen(true)}>
+            <PlusIcon /> New Task
+          </Button>
+          <TodoFilter />
+        </div>
         <Input
           type="text"
           value={newTodo}
@@ -41,9 +49,6 @@ const TodoList: React.FC = () => {
           placeholder="Add a new todo"
           className="flex-grow"
         />
-        <Button onClick={() => setCreateTodoDialogOpen(true)}>
-          Add a New Todo Item
-        </Button>
       </div>
       <ul className="space-y-2">
         {todos?.map((todo: Todo) => (

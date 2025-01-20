@@ -25,6 +25,7 @@ import {
 import { Textarea } from "@/components/ui/textarea";
 import { useUsersQuery } from "@/hooks/use-users";
 import { Todo } from "@/types/todo";
+import { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -33,11 +34,6 @@ interface CreateTodoDialogProps {
   isOpen: boolean;
   onClose: (data: boolean) => void;
   onSubmit: (data: Todo) => void;
-}
-
-interface User {
-  id: string;
-  name: string;
 }
 
 const todoSchema = z.object({
