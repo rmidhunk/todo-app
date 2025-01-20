@@ -1,19 +1,19 @@
-import CreateTodoDialog from "@/components/create-todo-dialog";
-import TodoFilter from "@/components/todo-filter";
+import { CreateTodoDialog } from "@/components/create-todo-dialog";
+import { TodoFilter } from "@/components/todo-filter";
 import { TodoItem } from "@/components/todo-item";
-import TodoPagination from "@/components/todo-pagination";
+import { TodoPagination } from "@/components/todo-pagination";
 import { TodoSort } from "@/components/todo-sort";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
+import { updateParams } from "@/lib/utils";
 import { Todo } from "@/types/todo";
-import { PlusIcon } from "lucide-react";
+import { PlusIcon, SearchIcon } from "lucide-react";
 import React, { useState } from "react";
 import { useSearchParams } from "react-router";
-import { useSWRConfig } from "swr";
 
 const TodoList: React.FC = () => {
-  const [newTodo, setNewTodo] = useState("");
+  const [searchTerm, setSearchTerm] = useState("");
   const [createTodoDialogOpen, setCreateTodoDialogOpen] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -22,8 +22,15 @@ const TodoList: React.FC = () => {
   const user = searchParams.get("user") || "";
   const sort = searchParams.get("sort") || "";
   const page = searchParams.get("page") || "";
+  const title = searchParams.get("title") || "";
 
-  const { todos, todoListMutate } = useTodosQuery({ status, user, sort, page });
+  const { todos, todoListMutate } = useTodosQuery({
+    status,
+    user,
+    sort,
+    page,
+    title,
+  });
   const { createTodo, isCreating } = useTodosMutation();
 
   const addTodo = async (todoItem: Todo) => {
@@ -59,13 +66,23 @@ const TodoList: React.FC = () => {
             </Button>
           </div>
         </div>
-        <Input
-          type="text"
-          value={newTodo}
-          onChange={(e) => setNewTodo(e.target.value)}
-          placeholder="Add a new todo"
-          className="flex-grow"
-        />
+        <div className="flex">
+          <Input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            placeholder="Search todos with exact title..."
+            className="flex-grow rounded-r-none"
+          />
+          <Button
+            className="rounded-l-none"
+            onClick={() =>
+              updateParams({ title: searchTerm }, searchParams, setSearchParams)
+            }
+          >
+            <SearchIcon />
+          </Button>
+        </div>
       </div>
       <ul className="space-y-2 mb-4">
         {todos?.data?.map((todo: Todo) => (

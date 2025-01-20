@@ -11,10 +11,11 @@ interface PatchRequestArgs {
 }
 
 interface UseTodosQueryProps {
+  page?: string;
   status?: string;
   user?: string;
   sort?: string;
-  page?: string;
+  title?: string;
 }
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -39,13 +40,20 @@ async function deleteRequest(url: string, { arg }: { arg: DeleteRequestArgs }) {
   }).then((res) => res.json());
 }
 
-const useTodosQuery = ({ status, user, sort, page }: UseTodosQueryProps) => {
+const useTodosQuery = ({
+  status,
+  user,
+  sort,
+  page,
+  title,
+}: UseTodosQueryProps) => {
   const params = new URLSearchParams();
+  params.append("_page", page || "1");
+  params.append("_per_page", "4");
   if (user) params.append("assignedUser", user);
   if (status) params.append("status", status);
   if (sort) params.append("_sort", sort);
-  params.append("_page", page ?? "1");
-  params.append("_per_page", "4");
+  if (title) params.append("title", title);
 
   const url = `http://localhost:3000/todo${
     params.toString() ? `?${params.toString()}` : ""

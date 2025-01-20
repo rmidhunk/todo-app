@@ -175,4 +175,4 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
   );
 };
 
-export default CreateTodoDialog;
+export { CreateTodoDialog };

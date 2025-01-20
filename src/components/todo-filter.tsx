@@ -90,4 +90,4 @@ const TodoFilter = () => {
   );
 };
 
-export default TodoFilter;
+export { TodoFilter };

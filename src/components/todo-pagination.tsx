@@ -71,4 +71,4 @@ const TodoPagination = ({ todos }: TodoPaginationProps) => {
   );
 };
 
-export default TodoPagination;
+export { TodoPagination };
