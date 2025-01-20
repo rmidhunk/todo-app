@@ -14,9 +14,10 @@ import { DeleteTodoConfirmDialog } from "./delete-todo-confirm-dialog";
 
 interface TodoItemProps {
   todo: Todo;
+  todoListMutate: () => void;
 }
 
-const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
+const TodoItem: React.FC<TodoItemProps> = ({ todo, todoListMutate }) => {
   const { removeTodo, isDeleting } = useDeleteTodosMutation();
   const { toggleTodoItem, isToggling } = usePatchTodosMutation();
 
@@ -37,6 +38,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo }) => {
   const deleteTodo = async (id: string) => {
     try {
       await removeTodo({ queryParams: id });
+      todoListMutate();
     } catch (error) {
       console.log("Unable to delete todo due to ", error);
     }

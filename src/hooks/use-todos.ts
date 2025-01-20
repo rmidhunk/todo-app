@@ -14,6 +14,7 @@ interface UseTodosQueryProps {
   status?: string;
   user?: string;
   sort?: string;
+  page?: string;
 }
 
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
@@ -38,22 +39,25 @@ async function deleteRequest(url: string, { arg }: { arg: DeleteRequestArgs }) {
   }).then((res) => res.json());
 }
 
-const useTodosQuery = ({ status, user, sort }: UseTodosQueryProps) => {
+const useTodosQuery = ({ status, user, sort, page }: UseTodosQueryProps) => {
   const params = new URLSearchParams();
   if (user) params.append("assignedUser", user);
   if (status) params.append("status", status);
   if (sort) params.append("_sort", sort);
+  params.append("_page", page ?? "1");
+  params.append("_per_page", "4");
 
   const url = `http://localhost:3000/todo${
     params.toString() ? `?${params.toString()}` : ""
   }`;
 
-  const { data, error, isLoading } = useSWR(url, fetcher);
+  const { data, error, isLoading, mutate } = useSWR(url, fetcher);
 
   return {
     todos: data,
     isTodoListLoading: isLoading,
     isTodoListError: error,
+    todoListMutate: mutate,
   };
 };
 const useTodosMutation = () => {

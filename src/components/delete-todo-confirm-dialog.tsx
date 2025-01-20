@@ -1,3 +1,4 @@
+import { Button } from "@/components/ui/button";
 import {
   DialogClose,
   DialogContent,
@@ -6,7 +7,6 @@ import {
   DialogHeader,
   DialogTitle,
 } from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
 import { Todo } from "@/types/todo";
 
 interface DeleteTodoConfirmDialogProps {
@@ -37,7 +37,9 @@ const DeleteTodoConfirmDialog = ({
           <Button
             type="button"
             variant="default"
-            onClick={() => onDelete(todoItem?.id)}
+            onClick={() => {
+              onDelete(todoItem?.id);
+            }}
           >
             Delete
           </Button>
