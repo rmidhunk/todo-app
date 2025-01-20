@@ -1,19 +1,17 @@
 import { CreateTodoDialog } from "@/components/create-todo-dialog";
+import { SearchTodo } from "@/components/search-todo";
 import { TodoFilter } from "@/components/todo-filter";
 import { TodoItem } from "@/components/todo-item";
 import { TodoPagination } from "@/components/todo-pagination";
 import { TodoSort } from "@/components/todo-sort";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
 import { useTodosMutation, useTodosQuery } from "@/hooks/use-todos";
-import { updateParams } from "@/lib/utils";
 import { Todo } from "@/types/todo";
-import { PlusIcon, SearchIcon } from "lucide-react";
+import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";
 import { useSearchParams } from "react-router";
 
 const TodoList: React.FC = () => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [createTodoDialogOpen, setCreateTodoDialogOpen] = useState(false);
 
   const [searchParams, setSearchParams] = useSearchParams();
@@ -66,23 +64,7 @@ const TodoList: React.FC = () => {
             </Button>
           </div>
         </div>
-        <div className="flex">
-          <Input
-            type="text"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Search todos with exact title..."
-            className="flex-grow rounded-r-none"
-          />
-          <Button
-            className="rounded-l-none"
-            onClick={() =>
-              updateParams({ title: searchTerm }, searchParams, setSearchParams)
-            }
-          >
-            <SearchIcon />
-          </Button>
-        </div>
+        <SearchTodo />
       </div>
       <ul className="space-y-2 mb-4">
         {todos?.data?.map((todo: Todo) => (
