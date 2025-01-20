@@ -46,7 +46,9 @@ const TodoList: React.FC = () => {
           <Button onClick={() => setCreateTodoDialogOpen(true)}>
             <PlusIcon /> New Task
           </Button>
-          <TodoFilter />
+          <div>
+            <TodoFilter />
+          </div>
         </div>
         <Input
           type="text"

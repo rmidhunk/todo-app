@@ -15,7 +15,7 @@ import { ChevronDownIcon } from "lucide-react";
 import { useSearchParams } from "react-router";
 
 interface NewParamsType {
-  status?: "todo" | "inProgress" | "done";
+  status?: "todo" | "in-progress" | "done";
   user?: string;
 }
 
@@ -49,16 +49,19 @@ const TodoFilter = () => {
           <DropdownMenuPortal>
             <DropdownMenuSubContent>
               <DropdownMenuItem
+                className="cursor-pointer"
                 onClick={() => updateParams({ status: "todo" })}
               >
                 Todo
               </DropdownMenuItem>
               <DropdownMenuItem
-                onClick={() => updateParams({ status: "inProgress" })}
+                className="cursor-pointer"
+                onClick={() => updateParams({ status: "in-progress" })}
               >
                 In Progress
               </DropdownMenuItem>
               <DropdownMenuItem
+                className="cursor-pointer"
                 onClick={() => updateParams({ status: "done" })}
               >
                 Done
@@ -72,6 +75,7 @@ const TodoFilter = () => {
             <DropdownMenuSubContent>
               {users?.map((user: User) => (
                 <DropdownMenuItem
+                  className="cursor-pointer"
                   key={user?.id}
                   onClick={() => updateParams({ user: user?.id })}
                 >
@@ -81,7 +85,10 @@ const TodoFilter = () => {
             </DropdownMenuSubContent>
           </DropdownMenuPortal>
         </DropdownMenuSub>
-        <DropdownMenuItem onClick={() => setSearchParams({})}>
+        <DropdownMenuItem
+          className="cursor-pointer"
+          onClick={() => setSearchParams({})}
+        >
           Clear all filters
         </DropdownMenuItem>
       </DropdownMenuContent>

@@ -10,6 +10,11 @@ interface PatchRequestArgs {
   queryParams: string;
 }
 
+interface UseTodosQueryProps {
+  status?: string;
+  user?: string;
+}
+
 const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 async function postRequest(url: string, { arg }: { arg: Todo }) {
@@ -32,7 +37,7 @@ async function deleteRequest(url: string, { arg }: { arg: DeleteRequestArgs }) {
   }).then((res) => res.json());
 }
 
-const useTodosQuery = ({ status, user }: { status: string; user: string }) => {
+const useTodosQuery = ({ status, user }: UseTodosQueryProps) => {
   const params = new URLSearchParams();
   if (user) params.append("assignedUser", user);
   if (status) params.append("status", status);
