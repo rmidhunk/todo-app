@@ -146,7 +146,7 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                         <SelectValue placeholder="Select User" />
                       </SelectTrigger>
                       <SelectContent>
-                        {users.map((user: User) => (
+                        {users?.map((user: User) => (
                           <SelectItem key={user?.id} value={user?.name}>
                             {user?.name}
                           </SelectItem>

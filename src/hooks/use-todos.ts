@@ -54,7 +54,7 @@ const useTodosQuery = ({
   if (sort) params.append("_sort", sort);
   if (title) params.append("title", title);
 
-  const url = `http://localhost:3000/todo${
+  const url = `${import.meta.env.VITE_API_URL}/todo${
     params.toString() ? `?${params.toString()}` : ""
   }`;
 
@@ -69,7 +69,7 @@ const useTodosQuery = ({
 };
 const useTodosMutation = () => {
   const { trigger, isMutating } = useSWRMutation(
-    "http://localhost:3000/todo",
+    `${import.meta.env.VITE_API_URL}/todo`,
     postRequest,
   );
   return { createTodo: trigger, isCreating: isMutating };
@@ -77,7 +77,7 @@ const useTodosMutation = () => {
 
 const usePatchTodosMutation = () => {
   const { trigger, isMutating } = useSWRMutation(
-    "http://localhost:3000/todo",
+    `${import.meta.env.VITE_API_URL}/todo`,
     patchRequest,
   );
   return { toggleTodoItem: trigger, isToggling: isMutating };
@@ -85,7 +85,7 @@ const usePatchTodosMutation = () => {
 
 const useDeleteTodosMutation = () => {
   const { trigger, isMutating } = useSWRMutation(
-    "http://localhost:3000/todo",
+    `${import.meta.env.VITE_API_URL}/todo`,
     deleteRequest,
   );
   return { removeTodo: trigger, isDeleting: isMutating };

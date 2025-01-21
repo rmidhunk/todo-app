@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 const useUsersQuery = () => {
   const { data, error, isLoading } = useSWR(
-    `http://localhost:3000/users`,
+    `${import.meta.env.VITE_API_URL}/users`,
     fetcher,
   );
 

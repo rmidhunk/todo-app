@@ -3,7 +3,7 @@ import useSWR from "swr";
 
 const useAuthQuery = () => {
   const { data, error, isLoading } = useSWR(
-    `http://localhost:3000/auth`,
+    `${import.meta.env.VITE_API_URL}/auth`,
     fetcher,
   );
 

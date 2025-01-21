@@ -22,6 +22,7 @@ nvm use
 ```bash
 git clone https://github.com/rmidhunk/todo-app.git
 cd todo-app
+cp .env.example .env
 ```
 
 2. Install dependencies:
