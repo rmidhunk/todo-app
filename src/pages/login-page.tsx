@@ -32,9 +32,9 @@ const LoginPage = () => {
     defaultValues: { username: "", password: "" },
   });
 
-  const onSubmit = (data: { username: string; password: string }) => {
+  const onSubmit = async (data: { username: string; password: string }) => {
     try {
-      auth?.login(data.username, data.password);
+      await auth?.login(data.username, data.password);
       navigate("/todo-list");
     } catch (error) {
       setError("Invalid username or password");
