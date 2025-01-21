@@ -13,7 +13,7 @@
     {
       "id": "2",
       "title": "3Learn JavaScript1",
-      "status": "in-progress",
+      "status": "todo",
       "dueDate": "2020-12-31",
       "description": "Learn JavaScript basics",
       "assignedUser": "2",
