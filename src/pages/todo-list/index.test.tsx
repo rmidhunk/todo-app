@@ -1,5 +1,6 @@
 import { useTodosQuery } from "@/hooks/use-todos";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { TodoList } from ".";
@@ -17,6 +18,21 @@ describe("TodoList Component", () => {
     vi.clearAllMocks();
   });
 
+  const renderComponent = () => {
+    render(
+      <MemoryRouter>
+        <TodoList />
+      </MemoryRouter>,
+    );
+
+    return {
+      newTaskButton: screen.getByRole("button", { name: /new task/i }),
+      createTodoDialog: screen.findByRole("dialog"),
+      paginationNav: screen.findByRole("navigation"),
+    };
+  };
+
+  const user = userEvent.setup();
   it("renders todo list with tasks", async () => {
     (useTodosQuery as vi.Mock).mockReturnValue({
       todos: {
@@ -26,13 +42,32 @@ describe("TodoList Component", () => {
       todoListMutate: vi.fn(),
     });
 
-    render(
-      <MemoryRouter>
-        <TodoList />
-      </MemoryRouter>,
-    );
+    renderComponent();
 
-    screen.debug(null, 200000);
     expect(await screen.findByText("Test Todo")).toBeInTheDocument();
+  });
+
+  it("opens create todo dialog when 'New Task' button is clicked", async () => {
+    (useTodosQuery as vi.Mock).mockReturnValue({
+      todos: { data: [], pages: 1 },
+      todoListMutate: vi.fn(),
+    });
+
+    const { newTaskButton, createTodoDialog } = renderComponent();
+
+    await user.click(newTaskButton);
+
+    expect(await createTodoDialog).toBeInTheDocument();
+  });
+
+  it("renders pagination if there are multiple pages", async () => {
+    (useTodosQuery as vi.Mock).mockReturnValue({
+      todos: { data: [], pages: 2 },
+      todoListMutate: vi.fn(),
+    });
+
+    const { paginationNav } = renderComponent();
+
+    expect(await paginationNav).toBeInTheDocument();
   });
 });
