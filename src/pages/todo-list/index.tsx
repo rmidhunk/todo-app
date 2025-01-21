@@ -1,11 +1,11 @@
-import { CreateTodoDialog } from "@/components/create-todo-dialog";
-import { SearchTodo } from "@/components/search-todo";
-import { TodoFilter } from "@/components/todo-filter";
-import { TodoItem } from "@/components/todo-item";
-import { TodoPagination } from "@/components/todo-pagination";
-import { TodoSort } from "@/components/todo-sort";
 import { Button } from "@/components/ui/button";
 import { useTodosQuery } from "@/hooks/service-hooks/use-todos";
+import { CreateTodoDialog } from "@/pages/todo-list/components/create-todo-dialog";
+import { SearchTodo } from "@/pages/todo-list/components/search-todo";
+import { TodoFilter } from "@/pages/todo-list/components/todo-filter";
+import { TodoItem } from "@/pages/todo-list/components/todo-item";
+import { TodoPagination } from "@/pages/todo-list/components/todo-pagination";
+import { TodoSort } from "@/pages/todo-list/components/todo-sort";
 import { Todo } from "@/types/todo";
 import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";

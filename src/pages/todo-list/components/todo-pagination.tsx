@@ -53,7 +53,7 @@ const TodoPagination = ({ todos }: TodoPaginationProps) => {
         </Button>
         {todos?.pages &&
           Array.from({ length: todos.pages }, (_, index) => (
-            <PaginationItem key={index}>
+            <PaginationItem key={index} className="cursor-pointer">
               <PaginationLink onClick={() => updateParams({ page: index + 1 })}>
                 {index + 1}
               </PaginationLink>
