@@ -1,3 +1,4 @@
+import { fetcher } from "@/lib/api-utils";
 import { Todo } from "@/types/todo";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -17,8 +18,6 @@ interface UseTodosQueryProps {
   sort?: string;
   title?: string;
 }
-
-const fetcher = (...args) => fetch(...args).then((res) => res.json());
 
 async function postRequest(url: string, { arg }: { arg: Todo }) {
   return fetch(url, {
