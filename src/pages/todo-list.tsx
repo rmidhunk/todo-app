@@ -16,11 +16,10 @@ const TodoList: React.FC = () => {
 
   const [searchParams, setSearchParams] = useSearchParams();
 
-  const status = searchParams.get("status") || "";
-  const user = searchParams.get("user") || "";
-  const sort = searchParams.get("sort") || "";
-  const page = searchParams.get("page") || "";
-  const title = searchParams.get("title") || "";
+  const params = ["status", "user", "sort", "page", "title"];
+  const [status, user, sort, page, title] = params.map(
+    (param) => searchParams.get(param) || "",
+  );
 
   const { todos, todoListMutate } = useTodosQuery({
     status,

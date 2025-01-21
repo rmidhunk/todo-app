@@ -30,6 +30,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, todoListMutate }) => {
         requestBody: updatedTodo,
         queryParams: id,
       });
+      todoListMutate();
     } catch (error) {
       console.log("Unable to toggle todo due to ", error);
     }
