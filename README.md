@@ -57,6 +57,12 @@ Run unit tests:
 pnpm test
 ```
 
+Run unit tests in browser:
+
+```bash
+pnpm test:ui
+```
+
 ### Build
 
 Create a production build:
