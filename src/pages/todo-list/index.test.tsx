@@ -48,11 +48,6 @@ describe("TodoList Component", () => {
   });
 
   it("opens create todo dialog when 'New Task' button is clicked", async () => {
-    (useTodosQuery as vi.Mock).mockReturnValue({
-      todos: { data: [], pages: 1 },
-      todoListMutate: vi.fn(),
-    });
-
     const { newTaskButton, createTodoDialog } = renderComponent();
 
     await user.click(newTaskButton);
@@ -69,5 +64,32 @@ describe("TodoList Component", () => {
     const { paginationNav } = renderComponent();
 
     expect(await paginationNav).toBeInTheDocument();
+  });
+
+  it("should have done status todo item have title  striked", async () => {
+    (useTodosQuery as vi.Mock).mockReturnValue({
+      todos: {
+        data: [
+          {
+            id: "1",
+            title: "1Learn JavaScript",
+            status: "done",
+            dueDate: "2020-12-31",
+            description: "Learn JavaScript basics",
+            assignedUser: "1",
+            priority: "high",
+            tags: [],
+          },
+        ],
+        pages: 1,
+      },
+      todoListMutate: vi.fn(),
+    });
+
+    renderComponent();
+
+    expect(await screen.getByText("1Learn JavaScript")).toHaveClass(
+      "line-through",
+    );
   });
 });
