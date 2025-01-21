@@ -1,11 +1,11 @@
-import { useTodosQuery } from "@/hooks/use-todos";
+import { useTodosQuery } from "@/hooks/service-hooks/use-todos";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 import { TodoList } from ".";
 
-vi.mock(import("@/hooks/use-todos"), async (importOriginal) => {
+vi.mock(import("@/hooks/service-hooks/use-todos"), async (importOriginal) => {
   const mod = await importOriginal();
   return {
     ...mod,

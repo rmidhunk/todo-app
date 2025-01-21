@@ -1,4 +1,5 @@
 import { fetcher } from "@/lib/api-utils";
+import { TODOS_API } from "@/services/api-urls";
 import { Todo } from "@/types/todo";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
@@ -54,9 +55,7 @@ const useTodosQuery = ({
   if (sort) params.append("_sort", sort);
   if (title) params.append("title", title);
 
-  const url = `${import.meta.env.VITE_API_URL}/todo${
-    params.toString() ? `?${params.toString()}` : ""
-  }`;
+  const url = `${TODOS_API}${params.toString() ? `?${params.toString()}` : ""}`;
 
   const { data, error, isLoading, mutate } = useSWR(url, fetcher);
 
@@ -68,32 +67,23 @@ const useTodosQuery = ({
   };
 };
 const useTodosMutation = () => {
-  const { trigger, isMutating } = useSWRMutation(
-    `${import.meta.env.VITE_API_URL}/todo`,
-    postRequest,
-  );
+  const { trigger, isMutating } = useSWRMutation(`${TODOS_API}`, postRequest);
   return { createTodo: trigger, isCreating: isMutating };
 };
 
 const usePatchTodosMutation = () => {
-  const { trigger, isMutating } = useSWRMutation(
-    `${import.meta.env.VITE_API_URL}/todo`,
-    patchRequest,
-  );
+  const { trigger, isMutating } = useSWRMutation(`${TODOS_API}`, patchRequest);
   return { toggleTodoItem: trigger, isToggling: isMutating };
 };
 
 const useDeleteTodosMutation = () => {
-  const { trigger, isMutating } = useSWRMutation(
-    `${import.meta.env.VITE_API_URL}/todo`,
-    deleteRequest,
-  );
+  const { trigger, isMutating } = useSWRMutation(`${TODOS_API}`, deleteRequest);
   return { removeTodo: trigger, isDeleting: isMutating };
 };
 
 export {
-  useTodosMutation,
-  useTodosQuery,
   useDeleteTodosMutation,
   usePatchTodosMutation,
+  useTodosMutation,
+  useTodosQuery,
 };

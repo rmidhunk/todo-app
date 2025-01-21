@@ -6,7 +6,7 @@ import { Dialog, DialogTrigger } from "@/components/ui/dialog";
 import {
   useDeleteTodosMutation,
   usePatchTodosMutation,
-} from "@/hooks/use-todos";
+} from "@/hooks/service-hooks/use-todos";
 import { cn } from "@/lib/utils";
 import { Todo } from "@/types/todo";
 import React from "react";

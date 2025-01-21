@@ -9,7 +9,7 @@ import {
   DropdownMenuSubTrigger,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { useUsersQuery } from "@/hooks/use-users";
+import { useUsersQuery } from "@/hooks/service-hooks/use-users";
 import { User } from "@/types/user";
 import { ChevronDownIcon } from "lucide-react";
 import { useSearchParams } from "react-router";

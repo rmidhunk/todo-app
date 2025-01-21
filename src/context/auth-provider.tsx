@@ -1,4 +1,4 @@
-import { useAuthQuery } from "@/hooks/use-authentication";
+import { useAuthQuery } from "@/hooks/service-hooks/use-authentication";
 import { createContext, useContext, useState } from "react";
 
 interface AuthContextType {

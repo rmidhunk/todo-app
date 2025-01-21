@@ -24,8 +24,8 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
-import { useTodosMutation } from "@/hooks/use-todos";
-import { useUsersQuery } from "@/hooks/use-users";
+import { useTodosMutation } from "@/hooks/service-hooks/use-todos";
+import { useUsersQuery } from "@/hooks/service-hooks/use-users";
 import { Todo } from "@/types/todo";
 import { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";

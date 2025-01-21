@@ -5,7 +5,7 @@ import { TodoItem } from "@/components/todo-item";
 import { TodoPagination } from "@/components/todo-pagination";
 import { TodoSort } from "@/components/todo-sort";
 import { Button } from "@/components/ui/button";
-import { useTodosQuery } from "@/hooks/use-todos";
+import { useTodosQuery } from "@/hooks/service-hooks/use-todos";
 import { Todo } from "@/types/todo";
 import { PlusIcon } from "lucide-react";
 import React, { useState } from "react";
