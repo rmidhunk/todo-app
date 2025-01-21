@@ -11,7 +11,7 @@ import { Todo } from "@/types/todo";
 
 interface DeleteTodoConfirmDialogProps {
   todoItem: Todo;
-  onDelete: (id: string) => void;
+  onDelete: (id: string | undefined) => void;
 }
 
 const DeleteTodoConfirmDialog = ({
