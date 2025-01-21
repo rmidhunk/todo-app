@@ -97,7 +97,7 @@ const TodoItem: React.FC<TodoItemProps> = ({ todo, todoListMutate }) => {
             </span>
             <Dialog>
               <DialogTrigger asChild>
-                <Button variant="destructive" size="sm">
+                <Button variant="destructive" size="sm" disabled={isDeleting}>
                   Delete
                 </Button>
               </DialogTrigger>

@@ -51,8 +51,7 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
   onClose,
   todoListMutate,
 }) => {
-  const { users, isUsersLoading, isUsersError } = useUsersQuery();
-
+  const { users, isUsersLoading } = useUsersQuery();
   const { createTodo, isCreating } = useTodosMutation();
 
   const addTodo = async (todoItem: Todo) => {
@@ -146,11 +145,15 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
                         <SelectValue placeholder="Select User" />
                       </SelectTrigger>
                       <SelectContent>
-                        {users?.map((user: User) => (
-                          <SelectItem key={user?.id} value={user?.name}>
-                            {user?.name}
-                          </SelectItem>
-                        ))}
+                        {isUsersLoading ? (
+                          <p>Loading...</p>
+                        ) : (
+                          users?.map((user: User) => (
+                            <SelectItem key={user?.id} value={user?.name}>
+                              {user?.name}
+                            </SelectItem>
+                          ))
+                        )}
                       </SelectContent>
                     </Select>
                   </FormControl>
@@ -185,7 +188,9 @@ const CreateTodoDialog: React.FC<CreateTodoDialogProps> = ({
               )}
             />
             <DialogFooter className="justify-end">
-              <Button type="submit">Create Todo</Button>
+              <Button type="submit" disabled={isCreating}>
+                Create Todo
+              </Button>
             </DialogFooter>
           </form>
         </Form>

@@ -50,15 +50,6 @@
       "status": "todo"
     },
     {
-      "id": "c2d5",
-      "title": "hello2",
-      "dueDate": "2025-01-23",
-      "description": "desc",
-      "assignedUser": "Jean Doe",
-      "priority": "low",
-      "status": "todo"
-    },
-    {
       "id": "f71a",
       "title": "New Task",
       "dueDate": "2025-01-24",
@@ -82,6 +73,15 @@
       "dueDate": "2025-02-06",
       "description": "Hello World Description",
       "assignedUser": "Jean Doe",
+      "priority": "medium",
+      "status": "todo"
+    },
+    {
+      "id": "bf04",
+      "title": "Some new task",
+      "dueDate": "2025-02-08",
+      "description": "task desc",
+      "assignedUser": "John Doe",
       "priority": "medium",
       "status": "todo"
     }

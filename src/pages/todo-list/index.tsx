@@ -23,7 +23,7 @@ const TodoList: React.FC = () => {
     (param) => searchParams.get(param) || "",
   );
 
-  const { todos, todoListMutate } = useTodosQuery({
+  const { todos, isTodoListLoading, todoListMutate } = useTodosQuery({
     status,
     user,
     sort,
@@ -56,9 +56,17 @@ const TodoList: React.FC = () => {
         <SearchTodo />
       </div>
       <ul className="space-y-2 mb-4">
-        {todos?.data?.map((todo: Todo) => (
-          <TodoItem key={todo.id} todo={todo} todoListMutate={todoListMutate} />
-        ))}
+        {isTodoListLoading ? (
+          <p>Loading your todos...</p>
+        ) : (
+          todos?.data?.map((todo: Todo) => (
+            <TodoItem
+              key={todo.id}
+              todo={todo}
+              todoListMutate={todoListMutate}
+            />
+          ))
+        )}
       </ul>
       {todos?.pages > 1 && <TodoPagination todos={todos} />}
     </div>
