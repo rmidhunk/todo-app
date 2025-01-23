@@ -1,6 +1,7 @@
 import { fetcher } from "@/lib/api-utils";
 import { TODOS_API } from "@/services/api-urls";
 import { Todo } from "@/types/todo";
+import { useSearchParams } from "react-router";
 import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 interface DeleteRequestArgs {
@@ -47,15 +48,17 @@ const useTodosQuery = ({
   page,
   title,
 }: UseTodosQueryProps) => {
-  const params = new URLSearchParams();
-  params.append("_page", page || "1");
-  params.append("_per_page", "4");
-  if (user) params.append("assignedUser", user);
-  if (status) params.append("status", status);
-  if (sort) params.append("_sort", sort);
-  if (title) params.append("title", title);
+  const [searchParams] = useSearchParams();
 
-  const url = `${TODOS_API}${params.toString() ? `?${params.toString()}` : ""}`;
+  searchParams.set("_page", page || "1");
+  searchParams.set("_per_page", "4");
+
+  if (user) searchParams.set("assignedUser", user);
+  if (status) searchParams.set("status", status);
+  if (sort) searchParams.set("_sort", sort);
+  if (title) searchParams.set("title", title);
+
+  const url = `${TODOS_API}?${searchParams.toString()}`;
 
   const { data, error, isLoading, mutate } = useSWR(url, fetcher);
 
