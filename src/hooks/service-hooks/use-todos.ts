@@ -1,8 +1,7 @@
-import { fetcher } from "@/lib/api-utils";
 import { TODOS_API } from "@/services/api-urls";
 import { Todo } from "@/types/todo";
+import { useQuery } from "@tanstack/react-query";
 import { useSearchParams } from "react-router";
-import useSWR from "swr";
 import useSWRMutation from "swr/mutation";
 interface DeleteRequestArgs {
   queryParams: string;
@@ -41,13 +40,8 @@ async function deleteRequest(url: string, { arg }: { arg: DeleteRequestArgs }) {
   }).then((res) => res.json());
 }
 
-const useTodosQuery = ({
-  status,
-  user,
-  sort,
-  page,
-  title,
-}: UseTodosQueryProps) => {
+const useTodosQuery = (query: UseTodosQueryProps) => {
+  const { status, user, sort, page, title } = query;
   const [searchParams] = useSearchParams();
 
   searchParams.set("_page", page || "1");
@@ -60,7 +54,17 @@ const useTodosQuery = ({
 
   const url = `${TODOS_API}?${searchParams.toString()}`;
 
-  const { data, error, isLoading, mutate } = useSWR(url, fetcher);
+  const {
+    data,
+    error,
+    isLoading,
+    refetch: mutate,
+  } = useQuery({
+    queryKey: ["todos", query],
+    queryFn: () => fetch(url).then((r) => r.json()),
+    staleTime: 1 * 60 * 1000, //1m
+    placeholderData: (prev) => prev,
+  });
 
   return {
     todos: data,
